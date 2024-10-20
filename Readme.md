@@ -22,7 +22,7 @@ The project consists of three main Python files:
 - `reducer.py`: Implements the reducer function for aggregating results
 
 ## Mapper Design
-The mapper function in mapper.py processes input text files, cleans words, and distributes them into buckets based on their first character3
+The mapper function in mapper.py processes input text files, cleans words, and distributes them into buckets based on their first character. Key features include:
 
 Key features include:
 - Word cleaning using regular expressions
