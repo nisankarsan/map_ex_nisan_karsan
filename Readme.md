@@ -164,9 +164,6 @@ def main():
         thread.join()
 ```
 
-### File Handling
-The implementation uses a specific naming convention for intermediate and output files:
-Intermediate files: `mr-{mapper_id}-{bucket}` Output files: `out-{reducer_id}`
 
 ## Results
 The implementation successfully processes multiple text files in parallel, distributing the workload across mapper and reducer threads. The system effectively counts word occurrences and aggregates results, demonstrating the principles of parallel processing on a local machine.
