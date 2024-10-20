@@ -37,6 +37,11 @@ Initially, a list comprehension approach was attempted:
 def clean_word(word):
     return ''.join([char for char in word.lower() if char.isalnum()])
 ```
+The `isalnum()` method returns True if all the characters are alphanumeric, meaning alphabet letter (a-z) and numbers (0-9). [1]
+
+The `isalpha()` method returns True if all the characters are alphabet letters (a-z) so I didn’t use it because the requirements says **counting only alphanumeric**
+
+
 However, this method had issues with word splitting. The final implementation uses a more robust regex approach:
 
 ```python
@@ -45,6 +50,9 @@ def clean_word(word):
     return cleaned
 ```
 This regex method is preferred for its robustness and scalability, making it more suitable for production environments.
+`A-Z` and `a-z` in ASCII only and 0-9
+
+While the list comprehension approach is valid and works for simple cases, especially with English text, the regex method is generally preferred in professional environments due to its robustness and scalability. It's a more `production-ready` solution that can handle a wider range of scenarios and is less likely to need modification as requirements change or edge cases are discovered.
 
 ### Word Splitting
 The mapper uses regex to split words while keeping contractions intact:
@@ -59,7 +67,7 @@ Words are assigned to buckets based on their first character:
 ```python
 bucket = ord(clean[0]) % M
 ```
-
+`ord(clean)`: The ord() function returns the Unicode code point of a given character. For example, ord('a') returns 97, ord('b') returns 98, and so on. This gives us a numeric value for the first letter of the word.
 This uses the ASCII value of the first character modulo the number of reducers (M) to determine the bucket.
 
 
@@ -109,6 +117,17 @@ The implementation uses a specific naming convention for intermediate and output
 - Output files: `out-{reducer_id}`
 
 This naming convention allows for efficient distribution and processing of data across multiple mappers and reducers.
+
+1. **Intermediate Files Naming Convention**:
+    - During the mapping phase, the mapper writes intermediate key-value pairs to files named `mr-{mapper_id}-{bucket}`.
+    - The `bucket` is determined by the first character of the cleaned word, modulo the number of reducers (`M`).
+2. **Reducer Phase**:
+    - Each reducer reads the intermediate files corresponding to its ID. For example, reducer 0 reads files `mr-{i}-0` for all mapper IDs `i`, and reducer 3 reads files `mr-{i}-3`.
+
+
+
+
+
 
 ## Main File
 
